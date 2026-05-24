@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What If Love — Hero D</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link href="https://cdn.jsdelivr.net/npm/@fontsource/hauora-sans@5/400.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@fontsource/hauora-sans@5/700.css" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: transparent;
+      font-family: 'Hauora Sans', sans-serif;
+    }
+
+    .hero-wrap {
+      padding: 3rem 0;
+      max-width: 820px;
+    }
+
+    .hero-line {
+      font-size: clamp(1.45rem, 3.2vw, 2rem);
+      line-height: 1.45;
+      color: #111;
+      display: block;
+      opacity: 0;
+    }
+
+    .hero-line.line-1 {
+      font-weight: 700;
+      transition: opacity 0.9s ease;
+    }
+
+    .hero-line.line-2 {
+      font-weight: 400;
+      margin-top: 0.6rem;
+      transition: opacity 1.8s ease;
+    }
+
+    .hero-line.in {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-wrap">
+    <span class="hero-line line-1" id="line1">
+      In the age of AI, love is the intelligence we've forgotten how to scale.
+    </span>
+    <span class="hero-line line-2" id="line2">
+      <strong>WHAT IF LOVE</strong> enables those who care to become those who can.
+    </span>
+  </div>
+
+  <script>
+    // Version D: both sentences begin fading in simultaneously at load.
+    // Line 1 completes in 0.9s. Line 2 takes 1.8s to fully form.
+    // The weight differential comes from fade duration, not from timing offset.
+    const delays = {
+      line1: 0,
+      line2: 0
+    };
+
+    function sendHeight() {
+      const h = document.body.scrollHeight;
+      window.parent.postMessage({ iframeHeight: h }, '*');
+    }
+
+    function runReveal() {
+      Object.entries(delays).forEach(([id, ms]) => {
+        setTimeout(() => {
+          document.getElementById(id).classList.add('in');
+        }, ms);
+      });
+      setTimeout(sendHeight, 2100);
+    }
+
+    window.addEventListener('load', () => {
+      sendHeight();
+      runReveal();
+    });
+
+    window.addEventListener('resize', sendHeight);
+  </script>
+</body>
+</html>
