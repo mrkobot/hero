@@ -21,7 +21,7 @@
       max-width: 820px;
       will-change: opacity, transform;
       /* Smooths out sparse IO updates — interpolates between firings */
-      transition: opacity 0.15s ease, transform 0.15s ease;
+      transition: opacity 0.15s ease, transform 0.10s ease;
     }
 
     .line-1 {
@@ -90,7 +90,7 @@
 
     new IntersectionObserver(function (entries) {
       var ratio = entries[0].intersectionRatio;
-      var t = Math.max(0, Math.min(1, (1.0 - ratio) / 0.40));
+      var t = Math.max(0, Math.min(1, (1.0 - ratio) / 0.25));
       hero.style.opacity   = String(1 - t);
       hero.style.transform = 'translateY(' + (-t * 20) + 'px)';
     }, { threshold: thresholds }).observe(document.body);
