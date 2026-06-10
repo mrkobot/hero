@@ -93,7 +93,7 @@
       var ratio = entries[0].intersectionRatio;
       /* Fade begins at ratio 0.98 (first pixel of scroll),
          completes at ratio 0.50 (half the iframe exited). */
-      var t = Math.max(0, Math.min(1, (0.98 - ratio) / 0.48));
+      var t = Math.max(0, Math.min(1, (1.0 - ratio) / 0.38));
       hero.style.opacity   = String(1 - t);
       hero.style.transform = 'translateY(' + (-t * 20) + 'px)';
     }, { threshold: thresholds }).observe(hero);
