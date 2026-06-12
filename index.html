@@ -90,7 +90,7 @@
 
     new IntersectionObserver(function (entries) {
       var ratio = entries[0].intersectionRatio;
-      var t = Math.max(0, Math.min(1, (.90 - ratio) / 0.20));
+      var t = Math.max(0, Math.min(1, (.85 - ratio) / 0.20));
       hero.style.opacity   = String(1 - t);
       hero.style.transform = 'translateY(' + (-t * 20) + 'px)';
     }, { threshold: thresholds }).observe(document.body);
