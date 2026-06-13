@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What If Love — Hero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: transparent;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+    .hero-wrap {
+      padding: 8rem 0 5rem;
+      max-width: 820px;
+      will-change: opacity, transform;
+      transition: opacity 0.15s ease, transform 0.25s ease;
+    }
+    .line-1 {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.45;
+      color: #111;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+    .line-2 {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.45;
+      color: #111;
+      margin-top: 1.5rem;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 1.0s ease, transform 1.0s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .line-1.in { opacity: 1; }
+    .line-2.in { opacity: 1; transform: translateY(0); }
+    .soft-break { display: inline; }
+    @media (min-width: 500px) {
+      .soft-break { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-wrap" id="heroWrap">
+    <span class="line-1" id="line1">
+      In the age of AI, love is the intelligence <span class="soft-break">we've forgotten how to scale.</span>
+    </span>
+    <span class="line-2" id="line2">
+      <strong>Co-Intelligence Readiness</strong> enables those who care to become those who can.
+    </span>
+  </div>
+  <script>
+    /* ─── height relay ─────────────────────────────────────────── */
+    function sendHeight() {
+      window.parent.postMessage({ type: 'X-resize', height: document.body.scrollHeight }, '*');
+    }
+    /* ─── reveal ───────────────────────────────────────────────── */
+    function runReveal() {
+      document.getElementById('line1').classList.add('in');
+      setTimeout(function () {
+        document.getElementById('line2').classList.add('in');
+        setTimeout(sendHeight, 1100);
+      }, 600);
+    }
+    sendHeight();
+    document.fonts.ready.then(function () { sendHeight(); runReveal(); });
+    window.addEventListener('resize', sendHeight);
+    /* ─── scroll fade ──────────────────────────────────────────────
+       Observing document.body fires IO from the very top edge of the
+       iframe the moment scroll starts, rather than waiting for heroWrap
+       bounds to exit. Range 0.60 spreads the fade across enough IO
+       firings to avoid a single-step snap.
+    ─────────────────────────────────────────────────────────────── */
+    var hero = document.getElementById('heroWrap');
+    var thresholds = Array.from({ length: 101 }, function (_, i) { return i / 100; });
+    new IntersectionObserver(function (entries) {
+      var ratio = entries[0].intersectionRatio;
+      var t = Math.max(0, Math.min(1, (.85 - ratio) / 0.20));
+      hero.style.opacity   = String(1 - t);
+      hero.style.transform = 'translateY(' + (-t * 20) + 'px)';
+    }, { threshold: thresholds }).observe(document.body);
+  </script>
+</body>
+</html>
